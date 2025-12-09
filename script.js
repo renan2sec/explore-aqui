@@ -77,7 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
         { src: 'img/nat1.jpg', title: 'Seu Sorriso', message: 'Seu sorriso muda qualquer dia.' },
         { src: 'img/nat2.jpg', title: 'Seu Jeito', message: 'Tem algo em você que deixa tudo mais leve.' },
         { src: 'img/nat3.jpg', title: 'Seu Olhar', message: 'Seu olhar é poesia sem palavras.' },
-        { src: 'img/nat4.jpg', title: 'Você', message: 'Você é especial demais pra ser comum.' }
+        { src: 'img/nat4.jpg', title: 'Você', message: 'Você é especial demais pra ser comum.' },
+        { src: 'img/nat5.jpg', title: 'Aquela Risada', message: 'Sua risada é contagiante!' },
+        { src: 'img/nat6.jpg', title: 'Energia Boa', message: 'Adoro estar perto da sua energia positiva.' },
+        { src: 'img/nat7.jpg', title: 'Detalhes', message: 'Os pequenos detalhes em você são incríveis.' },
+        { src: 'img/nat8.jpg', title: 'Olhar Curioso', message: 'Seu olhar curioso me inspira a prestar atenção em tudo.' },
+        { src: 'img/nat9.jpg', title: 'Presença', message: 'Sua presença deixa tudo mais leve e divertido.' },
+        { src: 'img/nat10.jpg', title: 'Carisma', message: 'O seu jeito de ser é simplesmente carismático.' }
     ];
 
     let currentPhotoIndex = 0;
@@ -127,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (romanticMusic.paused) {
                 const p = romanticMusic.play();
                 if (p !== undefined) {
-                    p.catch(() => {});
+                    p.catch(() => { });
                 }
                 musicToggleBtn.textContent = '⏸ Pausar música';
             } else {
@@ -140,39 +146,76 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================
     // TEXTO DIGITANDO (SURPRESA)
     // =============================
-    const textoSurpresa = "Na verdade… tudo isso é só um jeito bonito de te dizer que eu gosto muito de você.";
-    const typedTextElement = document.getElementById('typedText');
+    const surpriseTexts = [
+        "Gostei de ver você explorando com atenção… interessante 😏",
+        "Você tem um jeito que chama atenção sem nem perceber 😉",
+        "Cada clique seu me deixa curioso… o que mais vem por aí?",
+        "Achei divertido acompanhar seus movimentos… continua assim ✨",
+        "Olha só, você chegou até o fim… tá rendendo curiosidade 😄",
+        "Confesso que quero ver você descobrindo mais… e eu também 😌"
+    ];
 
-    function iniciarDigitacao() {
-        if (!typedTextElement) return;
 
-        typedTextElement.textContent = "";
-        let letraIndex = 0;
+    let currentSurpriseIndex = 0;
+    let typingInterval;
+    let currentText = "";
 
-        const intervalo = setInterval(() => {
-            if (letraIndex < textoSurpresa.length) {
-                typedTextElement.textContent += textoSurpresa.charAt(letraIndex);
-                letraIndex++;
+    const surpriseTextElement = document.getElementById("surpriseText");
+    const nextSurpriseBtn = document.getElementById("nextSurpriseBtn");
+
+    function typeText(text, element, callback) {
+        // se já está digitando, termina imediatamente
+        if (typingInterval) {
+            clearInterval(typingInterval);
+            element.textContent = currentText; // mostra texto completo
+        }
+
+        currentText = text;
+        element.textContent = "";
+        let index = 0;
+
+        typingInterval = setInterval(() => {
+            if (index < text.length) {
+                element.textContent += text.charAt(index);
+                index++;
             } else {
-                clearInterval(intervalo);
+                clearInterval(typingInterval);
+                typingInterval = null;
+                if (callback) callback();
             }
-        }, 50);
+        }, 40);
     }
 
-    const secaoSurpresa = document.getElementById('surpresa');
+    function showNextSurprise() {
+        if (currentSurpriseIndex >= surpriseTexts.length) {
+            nextSurpriseBtn.style.display = "none";
+            surpriseTextElement.textContent = "Fim das curiosidades! 🎉";
+            return;
+        }
 
-    if (secaoSurpresa) {
-        const observer = new MutationObserver(() => {
-            if (secaoSurpresa.style.display === 'block') {
-                iniciarDigitacao();
-            }
-        });
-
-        observer.observe(secaoSurpresa, {
-            attributes: true,
-            attributeFilter: ['style']
-        });
+        typeText(surpriseTexts[currentSurpriseIndex], surpriseTextElement);
+        currentSurpriseIndex++;
     }
+
+    // Inicializa quando a seção é aberta
+    const surpriseSection = document.getElementById("surpresa");
+    const surpriseObserver = new MutationObserver(() => {
+        if (surpriseSection.style.display === "block") {
+            currentSurpriseIndex = 0;
+            nextSurpriseBtn.style.display = "block";
+            showNextSurprise();
+        }
+    });
+
+    surpriseObserver.observe(surpriseSection, {
+        attributes: true,
+        attributeFilter: ["style"]
+    });
+
+    if (nextSurpriseBtn) {
+        nextSurpriseBtn.addEventListener("click", showNextSurprise);
+    }
+
 
     // =============================
     // FORMULÁRIO (ABRE OUTRA PÁGINA)
