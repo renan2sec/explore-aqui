@@ -1,0 +1,388 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #211719;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+.hero-section h1 {
+  color: #d2415c;
+}
+
+.hero-section p {
+  color: #8b8c8c;
+}
+
+.menu-section {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.menu-card {
+  background: #722c3c;
+  padding: 20px;
+  text-align: center;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu-card:hover {
+  transform: scale(1.05);
+  background: #d2415c;
+}
+
+.hidden-section {
+  display: none;
+  padding: 20px;
+  text-align: center;
+}
+
+.hidden-section h2 {
+  color: #d2415c;
+  margin-bottom: 20px;
+}
+
+.colorful-button {
+  margin: 10px 0 20px;
+  background: #d2415c;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.colorful-button:hover {
+  background: #8c848c;
+}
+
+.flip-card-container {
+  margin: 20px auto;
+  width: 100%;
+  max-width: 320px;
+  display: none;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.flip-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, 
+.flip-card-back {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  position: absolute;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background: #722c3c;
+  transform: rotateY(0deg);
+}
+
+.flip-card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.flip-card-back {
+  background: #722c3c;
+  transform: rotateY(180deg);
+  color: #fff;
+  padding: 20px;
+}
+
+.tap-instruction {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  padding: 6px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #d2415c;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+/* ===== SURPRESA SECTION ===== */
+
+.surprise-overlay {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: softZoom 0.8s ease;
+}
+
+.surprise-card {
+  background: #722c3c;
+  border-radius: 20px;
+  padding: 30px 25px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(210, 65, 92, 0.4);
+  animation: fadeInGlow 1s ease;
+}
+
+.surprise-card p {
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  min-height: 80px;
+}
+
+@keyframes fadeInGlow {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+    box-shadow: 0 0 0 rgba(210, 65, 92, 0.0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 40px rgba(210, 65, 92, 0.4);
+  }
+}
+
+@keyframes softZoom {
+  from {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.form-invite {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+.invite-text {
+  font-size: 1.1rem;
+  color: #8b8c8c;
+  margin-bottom: 10px;
+}
+
+.form-section {
+  display: none;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.google-form {
+  width: 100%;
+  height: 520px;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.thanks-section {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
+  color: #d2415c;
+  animation: fadeIn 1s ease;
+}
+
+/* =======================
+   ESTILO EXCLUSIVO FORMULÁRIO
+   ======================= */
+
+.form-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  background: radial-gradient(circle at top, rgba(210, 65, 92, 0.3), transparent 60%);
+  animation: fadeInForm 1s ease-in-out;
+}
+
+.form-page h2 {
+  color: #d2415c;
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  animation: glowTitle 2s infinite alternate;
+}
+
+.google-form {
+  width: 100%;
+  max-width: 480px;
+  min-height: 520px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(210, 65, 92, 0.35);
+  animation: floatForm 3s ease-in-out infinite;
+}
+
+.form-page .colorful-button {
+  margin-top: 20px;
+  padding: 14px 28px;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* ANIMAÇÕES */
+
+@keyframes fadeInForm {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowTitle {
+  from {
+    text-shadow: 0 0 10px rgba(210, 65, 92, 0.4);
+  }
+  to {
+    text-shadow: 0 0 20px rgba(210, 65, 92, 0.8);
+  }
+}
+
+@keyframes floatForm {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+/* RESPONSIVO PARA FORMULÁRIO */
+@media (max-width: 500px) {
+  .form-page h2 {
+    font-size: 1.2rem;
+  }
+
+  .google-form {
+    min-height: 480px;
+  }
+}
+
+/* =======================
+   ESTILO EXCLUSIVO - OBRIGADO
+   ======================= */
+
+.thanks-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px 20px;
+  background: radial-gradient(circle at top, rgba(210, 65, 92, 0.3), transparent 60%);
+  animation: fadeInThanks 1s ease-in-out;
+}
+
+.thanks-page h1 {
+  color: #d2415c;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  animation: glowThanks 2s infinite alternate;
+}
+
+.thanks-page p {
+  color: #8b8c8c;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.thanks-page a.colorful-button {
+  padding: 14px 28px;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* ANIMAÇÕES */
+
+@keyframes fadeInThanks {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowThanks {
+  from {
+    text-shadow: 0 0 10px rgba(210, 65, 92, 0.4);
+  }
+  to {
+    text-shadow: 0 0 20px rgba(210, 65, 92, 0.8);
+  }
+}
+
+/* RESPONSIVO */
+@media (max-width: 500px) {
+  .thanks-page h1 {
+    font-size: 1.5rem;
+  }
+}
+
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #8b8c8c;
+}
+
+/* RESPONSIVO */
+@media (max-width: 500px) {
+  .flip-card {
+    height: 300px;
+  }
+}
