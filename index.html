@@ -15,17 +15,25 @@
 </header>
 
 <main class="menu-section" id="menu">
-  <div class="menu-card" onclick="openSection('momentos')">💗 Momentos</div>
+  <div class="menu-card" onclick="openSection('momentos')">📸 Galeria</div>
   <div class="menu-card" onclick="openSection('segredos')">🌙 Segredos</div>
-  <div class="menu-card" onclick="openSection('surpresa')">✨ Surpresa</div>
+  <div class="menu-card" onclick="openSection('surpresa')">💡 Curiosidades</div>
+
+  <section class="form-invite">
+  <p class="invite-text">Agora me conta… o que achou de tudo isso? 💌</p>
+  <button class="colorful-button" onclick="openForm()">
+    Quero contar 💗
+  </button>
+</section>
 </main>
 
-<!-- SEÇÃO MOMENTOS -->
 <section id="momentos" class="hidden-section">
 
   <button class="back-button" onclick="goBack()">← Voltar</button>
 
-  <h2>Momentos especiais 📸</h2>
+  <h2>Galeria de Fotos 📸</h2>
+
+  <p>Clique no botão abaixo </p>
   
   <button id="revealRandomImage" class="colorful-button">
     Descobrir um Momento 💫
@@ -51,15 +59,12 @@
   </div>
 </section>
 
-<!-- SEÇÃO SEGREDOS -->
-<!-- SEÇÃO SEGREDOS (ATUALIZADA) -->
 <section id="segredos" class="hidden-section">
   <button class="back-button" onclick="goBack()">← Voltar</button>
   <h2>Um segredo só pra você 🌙</h2>
 
   <p class="secret-text">Essa música que me vem na cabeça quando lembro de você! 💭</p>
 
-  <!-- Player oculto + botão de controle (arquivo: audio/musica.mp3) -->
   <audio id="romanticMusic" loop>
     <source src="audio/QuebraCabeca.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio.
@@ -70,23 +75,17 @@
   </div>
 </section>
 
-
-<!-- SEÇÃO SURPRESA -->
 <section id="surpresa" class="hidden-section">
   <button class="back-button" onclick="goBack()">← Voltar</button>
 
-  <div class="surprise-overlay">
-    <div class="surprise-card">
-      <p id="typedText"></p>
-    </div>
-  </div>
-</section>
+  <h2>Coisas legais que notei ✨</h2>
 
-<section class="form-invite">
-  <p class="invite-text">Agora me conta… o que achou de tudo isso? 💌</p>
-  <button class="colorful-button" onclick="openForm()">
-    Quero contar 💗
-  </button>
+  <div id="surpriseCardsContainer" class="surprise-overlay">
+    <div class="surprise-card" id="surpriseCard">
+      <p id="surpriseText"></p>
+    </div>
+    <button id="nextSurpriseBtn" class="colorful-button" style="margin-top: 15px;">Próximo ✨</button>
+  </div>
 </section>
 
 <footer>
