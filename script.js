@@ -10,18 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const romanticMusic = document.getElementById('romanticMusic');
     const musicToggleBtn = document.getElementById('musicToggleSegredos');
 
+    // efeitos visuais da música
+    const musicEffects = document.getElementById('musicEffects');
+    const musicBars = musicEffects ? musicEffects.querySelectorAll('span') : [];
+
+    function startMusicEffects() {
+        musicBars.forEach(bar => bar.style.animationPlayState = 'running');
+    }
+
+    function stopMusicEffects() {
+        musicBars.forEach(bar => bar.style.animationPlayState = 'paused');
+    }
+
     window.openSection = function (id) {
-        // esconde menu e todas as seções
         menu.style.display = 'none';
         sections.forEach(sec => sec.style.display = 'none');
 
-        // mostra a seção pedida
         const section = document.getElementById(id);
         section.style.display = 'block';
 
-        // se abrirmos a seção "segredos", tenta tocar a música
+        // ===== SEÇÃO MÚSICA =====
         if (id === 'segredos' && romanticMusic) {
             romanticMusic.currentTime = 0;
+
             const playPromise = romanticMusic.play();
             if (playPromise !== undefined) {
                 playPromise.catch(() => {
@@ -30,18 +41,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
+
             if (musicToggleBtn) {
                 musicToggleBtn.textContent = '⏸ Pausar música';
             }
+
+            startMusicEffects();
+
         } else {
-            // pausa música nas outras seções
             if (romanticMusic) {
                 romanticMusic.pause();
                 romanticMusic.currentTime = 0;
             }
+
             if (musicToggleBtn) {
                 musicToggleBtn.textContent = '🎵 Tocar música';
             }
+
+            stopMusicEffects();
         }
     };
 
@@ -57,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (musicToggleBtn) {
             musicToggleBtn.textContent = '🎵 Tocar música';
         }
+
+        stopMusicEffects();
     };
 
     // =============================
@@ -136,9 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     p.catch(() => { });
                 }
                 musicToggleBtn.textContent = '⏸ Pausar música';
+                startMusicEffects();
             } else {
                 romanticMusic.pause();
                 musicToggleBtn.textContent = '🎵 Tocar música';
+                stopMusicEffects();
             }
         });
     }
@@ -147,14 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // TEXTO DIGITANDO (SURPRESA)
     // =============================
     const surpriseTexts = [
-        "Gostei de ver você explorando com atenção… interessante 😏",
         "Você tem um jeito que chama atenção sem nem perceber 😉",
-        "Cada clique seu me deixa curioso… o que mais vem por aí?",
-        "Achei divertido acompanhar seus movimentos… continua assim ✨",
-        "Olha só, você chegou até o fim… tá rendendo curiosidade 😄",
-        "Confesso que quero ver você descobrindo mais… e eu também 😌"
+        "Tem algo no seu jeito que prende a atenção naturalmente…",
+        "É curioso como você faz coisas simples parecerem interessantes 😏",
+        "Tem uma leveza em você que é difícil de ignorar",
+        "Quanto mais você explora, mais dá vontade de continuar olhando…",
+        "Não sei se você percebe, mas sua presença deixa tudo mais interessante ✨"
     ];
-
 
     let currentSurpriseIndex = 0;
     let typingInterval;
@@ -164,10 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextSurpriseBtn = document.getElementById("nextSurpriseBtn");
 
     function typeText(text, element, callback) {
-        // se já está digitando, termina imediatamente
         if (typingInterval) {
             clearInterval(typingInterval);
-            element.textContent = currentText; // mostra texto completo
+            element.textContent = currentText;
         }
 
         currentText = text;
@@ -197,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentSurpriseIndex++;
     }
 
-    // Inicializa quando a seção é aberta
     const surpriseSection = document.getElementById("surpresa");
     const surpriseObserver = new MutationObserver(() => {
         if (surpriseSection.style.display === "block") {
@@ -216,9 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
         nextSurpriseBtn.addEventListener("click", showNextSurprise);
     }
 
-
     // =============================
-    // FORMULÁRIO (ABRE OUTRA PÁGINA)
+    // FORMULÁRIO
     // =============================
     window.openForm = function () {
         window.location.href = "formulario.html";
