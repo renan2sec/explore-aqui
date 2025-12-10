@@ -12,6 +12,7 @@
 <header class="hero-section">
   <h1>Bem-Vinda Gatinha ✨</h1>
   <p>Escolha o que quer explorar</p>
+  <p>Navegue entre as 3 seções</p>
 </header>
 
 <main class="menu-section" id="menu">
@@ -20,31 +21,28 @@
   <div class="menu-card" onclick="openSection('surpresa')">💡 Curiosidades</div>
 
   <section class="form-invite">
-  <p class="invite-text">Agora me conta… o que achou de tudo isso? 💌</p>
-  <button class="colorful-button" onclick="openForm()">
-    Quero contar 💗
-  </button>
-</section>
+    <p class="invite-text">Agora me conta… o que achou de tudo isso? 💌</p>
+    <button class="colorful-button" onclick="openForm()">Quero contar 💗</button>
+  </section>
 </main>
 
+<!-- SEÇÃO GALERIA -->
 <section id="momentos" class="hidden-section">
-
   <button class="back-button" onclick="goBack()">← Voltar</button>
 
   <h2>Galeria de Fotos 📸</h2>
+  <p>Clique no botão abaixo quantas vezes quiser</p>
 
-  <p>Clique no botão abaixo </p>
-  
   <button id="revealRandomImage" class="colorful-button">
     Descobrir um Momento 💫
   </button>
 
+  <h2>Clique na foto</h2>
+
   <div id="randomImageContainer" class="flip-card-container">
     <div class="flip-card">
-      
       <div class="flip-card-front">
         <img id="randomImage" src="placeholder.png" alt="Clique para virar">
-
         <div id="tapInstruction" class="tap-instruction">
           <span>Toque na foto 💗</span>
         </div>
@@ -54,27 +52,36 @@
         <h2 id="cardTitle"></h2>
         <p id="cardMessage"></p>
       </div>
-
     </div>
   </div>
 </section>
 
+<!-- SEÇÃO SEGREDOS -->
 <section id="segredos" class="hidden-section">
   <button class="back-button" onclick="goBack()">← Voltar</button>
-  <h2>Um segredo só pra você 🌙</h2>
 
-  <p class="secret-text">Essa música que me vem na cabeça quando lembro de você! 💭</p>
+  <h2>Uma música que lembra você 💭</h2>
 
   <audio id="romanticMusic" loop>
     <source src="audio/QuebraCabeca.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio.
   </audio>
 
+  <!-- Efeito Visual -->
+  <div id="musicEffects">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <div style="margin-top:16px;">
     <button id="musicToggleSegredos" class="colorful-button">🎵 Tocar música</button>
   </div>
 </section>
 
+<!-- SEÇÃO CURIOSIDADES -->
 <section id="surpresa" class="hidden-section">
   <button class="back-button" onclick="goBack()">← Voltar</button>
 
@@ -84,7 +91,10 @@
     <div class="surprise-card" id="surpriseCard">
       <p id="surpriseText"></p>
     </div>
-    <button id="nextSurpriseBtn" class="colorful-button" style="margin-top: 15px;">Próximo ✨</button>
+
+    <button id="nextSurpriseBtn" class="colorful-button" style="margin-top: 20px;">
+      Próximo ✨
+    </button>
   </div>
 </section>
 
