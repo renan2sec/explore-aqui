@@ -1,18 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =============================
-    // NAVEGAÇÃO ENTRE SEÇÕES
-    // =============================
+    const header = document.querySelector('header');
     const menu = document.getElementById('menu');
     const sections = document.querySelectorAll('.hidden-section');
 
-    // elemento de música (na seção "segredos")
     const romanticMusic = document.getElementById('romanticMusic');
     const musicToggleBtn = document.getElementById('musicToggleSegredos');
-
-    // efeitos visuais da música
+    const musicTitleDisplay = document.getElementById('musicTitleDisplay');
+    const nextMusicBtn = document.getElementById('nextMusicBtn');
+    
     const musicEffects = document.getElementById('musicEffects');
     const musicBars = musicEffects ? musicEffects.querySelectorAll('span') : [];
+
+    const musicPlaylist = [
+        { src: 'audio/QuebraCabeca.mp3', title: 'Quebra-Cabeça 🧩' },
+        { src: 'audio/mirror.mp3', title: 'Mirrors ❤️' },
+        { src: 'audio/NossoPlano.mp3', title: 'Nosso Plano 🌙' }
+    ];
+
+    let currentMusicIndex = 0;
 
     function startMusicEffects() {
         musicBars.forEach(bar => bar.style.animationPlayState = 'running');
@@ -22,73 +28,159 @@ document.addEventListener('DOMContentLoaded', () => {
         musicBars.forEach(bar => bar.style.animationPlayState = 'paused');
     }
 
-    window.openSection = function (id) {
-        menu.style.display = 'none';
-        sections.forEach(sec => sec.style.display = 'none');
+    function typeEffect(element, text, speed, callback) {
+        let i = 0;
+        element.textContent = '';
+        element.classList.remove('finished-typing');
 
-        const section = document.getElementById(id);
-        section.style.display = 'block';
-
-        // ===== SEÇÃO MÚSICA =====
-        if (id === 'segredos' && romanticMusic) {
-            romanticMusic.currentTime = 0;
-
-            const playPromise = romanticMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    if (musicToggleBtn) {
-                        musicToggleBtn.textContent = '🎵 Tocar música';
-                    }
-                });
+        function typing() {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(typing, speed);
+            } else {
+                element.classList.add('finished-typing');
+                if (callback) callback();
             }
+        }
+        typing();
+    }
 
-            if (musicToggleBtn) {
+    function loadAndPlayMusic() {
+        if (!romanticMusic || musicPlaylist.length === 0 || !musicTitleDisplay) return;
+
+        const currentTrack = musicPlaylist[currentMusicIndex];
+        
+        romanticMusic.src = currentTrack.src;
+        musicTitleDisplay.textContent = currentTrack.title;
+
+        romanticMusic.load();
+        const playPromise = romanticMusic.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
                 musicToggleBtn.textContent = '⏸ Pausar música';
-            }
+                startMusicEffects();
+            }).catch(() => {
+                musicToggleBtn.textContent = '🎵 Tocar música';
+                stopMusicEffects();
+            });
+        }
+    }
 
-            startMusicEffects();
+    function playNextTrack() {
+        currentMusicIndex = (currentMusicIndex + 1) % musicPlaylist.length;
+        loadAndPlayMusic();
+    }
 
+    const introOverlay = document.getElementById('introOverlay');
+    const introTextElement = document.getElementById('introText');
+    const introMessage = "Toda vez que você entrar aqui, terá coisas novas pra você ✨";
+
+    if (introTextElement && introOverlay) {
+        typeEffect(introTextElement, introMessage, 70, () => {
+            setTimeout(() => {
+                introOverlay.classList.add('hidden');
+            }, 1500);
+        });
+    }
+
+    const musicPhotoElement = document.getElementById('musicPhoto');
+    let slideshowInterval;
+    let slideshowIndex = 0;
+
+    function updateSlideshow() {
+        if (!musicPhotoElement) return;
+
+        const photo = photosData[slideshowIndex];
+
+        musicPhotoElement.classList.remove('active');
+
+        setTimeout(() => {
+            musicPhotoElement.src = photo.src;
+            
+            musicPhotoElement.classList.add('active');
+
+            slideshowIndex = (slideshowIndex + 1) % photosData.length;
+        }, 1000);
+    }
+
+    function startSlideshow() {
+        const initialPhoto = photosData[0];
+        musicPhotoElement.src = initialPhoto.src;
+        musicPhotoElement.classList.add('active');
+
+        slideshowIndex = 1;
+
+        slideshowInterval = setInterval(updateSlideshow, 4000); 
+    }
+
+    function stopSlideshow() {
+        if (slideshowInterval) {
+            clearInterval(slideshowInterval);
+        }
+        if (musicPhotoElement) {
+            musicPhotoElement.classList.remove('active');
+        }
+    }
+
+
+    window.openSection = function (id) {
+        const section = document.getElementById(id);
+
+        if (header) header.style.display = 'none';
+        menu.style.display = 'none';
+        sections.forEach(sec => {
+            sec.classList.remove('section-enter');
+            sec.style.display = 'none';
+        });
+
+        section.style.display = 'block';
+        setTimeout(() => { section.classList.add('section-enter'); }, 10);
+
+        if (id === 'segredos' && romanticMusic) {
+            loadAndPlayMusic();
+            
+            romanticMusic.onended = function() {
+                playNextTrack();
+            };
+            startSlideshow();
         } else {
             if (romanticMusic) {
                 romanticMusic.pause();
                 romanticMusic.currentTime = 0;
+                romanticMusic.onended = null;
             }
-
-            if (musicToggleBtn) {
-                musicToggleBtn.textContent = '🎵 Tocar música';
-            }
-
+            if (musicToggleBtn) musicToggleBtn.textContent = '🎵 Tocar música';
             stopMusicEffects();
+            stopSlideshow();
         }
     };
 
     window.goBack = function () {
-        sections.forEach(sec => sec.style.display = 'none');
+        sections.forEach(sec => {
+            sec.style.display = 'none';
+            sec.classList.remove('section-enter');
+        });
+
+        if (header) header.style.display = 'block';
+
         menu.style.display = 'grid';
 
         if (romanticMusic) {
             romanticMusic.pause();
             romanticMusic.currentTime = 0;
+            romanticMusic.onended = null;
         }
-
-        if (musicToggleBtn) {
-            musicToggleBtn.textContent = '🎵 Tocar música';
-        }
-
+        if (musicToggleBtn) musicToggleBtn.textContent = '🎵 Tocar música';
         stopMusicEffects();
+        stopSlideshow();
     };
 
-    // =============================
-    // SISTEMA DAS FOTOS (SEQUÊNCIA)
-    // =============================
     const revealRandomImageBtn = document.getElementById('revealRandomImage');
     const randomImageContainer = document.getElementById('randomImageContainer');
     const randomImageElement = document.getElementById('randomImage');
-
-    const flipCard = randomImageContainer
-        ? randomImageContainer.querySelector('.flip-card')
-        : null;
-
+    const flipCard = randomImageContainer ? randomImageContainer.querySelector('.flip-card') : null;
     const cardTitleElement = document.getElementById('cardTitle');
     const cardMessageElement = document.getElementById('cardMessage');
 
@@ -109,6 +201,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (revealRandomImageBtn) {
         revealRandomImageBtn.addEventListener('click', () => {
+            if (currentPhotoIndex >= photosData.length) {
+                revealRandomImageBtn.textContent = 'Você viu todos os momentos! ❤️';
+                revealRandomImageBtn.disabled = true;
+                if (randomImageContainer) randomImageContainer.style.display = 'none';
+                return;
+            }
+
             const photo = photosData[currentPhotoIndex];
 
             if (flipCard) {
@@ -132,9 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             currentPhotoIndex++;
-            if (currentPhotoIndex >= photosData.length) {
-                currentPhotoIndex = 0;
-            }
         });
     }
 
@@ -144,16 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =============================
-    // BOTÃO DE MÚSICA (SEÇÃO SEGREDOS)
-    // =============================
     if (musicToggleBtn && romanticMusic) {
         musicToggleBtn.addEventListener('click', () => {
             if (romanticMusic.paused) {
                 const p = romanticMusic.play();
-                if (p !== undefined) {
-                    p.catch(() => { });
-                }
+                if (p !== undefined) { p.catch(() => { }); }
                 musicToggleBtn.textContent = '⏸ Pausar música';
                 startMusicEffects();
             } else {
@@ -164,9 +255,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =============================
-    // TEXTO DIGITANDO (SURPRESA)
-    // =============================
+    if (nextMusicBtn) {
+        nextMusicBtn.addEventListener('click', playNextTrack);
+    }
+
     const surpriseTexts = [
         "Você tem um jeito que chama atenção sem nem perceber 😉",
         "Tem algo no seu jeito que prende a atenção naturalmente…",
@@ -177,42 +269,17 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     let currentSurpriseIndex = 0;
-    let typingInterval;
-    let currentText = "";
 
     const surpriseTextElement = document.getElementById("surpriseText");
     const nextSurpriseBtn = document.getElementById("nextSurpriseBtn");
 
-    function typeText(text, element, callback) {
-        if (typingInterval) {
-            clearInterval(typingInterval);
-            element.textContent = currentText;
-        }
-
-        currentText = text;
-        element.textContent = "";
-        let index = 0;
-
-        typingInterval = setInterval(() => {
-            if (index < text.length) {
-                element.textContent += text.charAt(index);
-                index++;
-            } else {
-                clearInterval(typingInterval);
-                typingInterval = null;
-                if (callback) callback();
-            }
-        }, 40);
-    }
-
     function showNextSurprise() {
         if (currentSurpriseIndex >= surpriseTexts.length) {
-            nextSurpriseBtn.style.display = "none";
-            surpriseTextElement.textContent = "Fim das curiosidades! 🎉";
+            if (nextSurpriseBtn) nextSurpriseBtn.style.display = "none";
+            if (surpriseTextElement) surpriseTextElement.textContent = "Fim das curiosidades! 🎉";
             return;
         }
-
-        typeText(surpriseTexts[currentSurpriseIndex], surpriseTextElement);
+        typeEffect(surpriseTextElement, surpriseTexts[currentSurpriseIndex], 40);
         currentSurpriseIndex++;
     }
 
@@ -220,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const surpriseObserver = new MutationObserver(() => {
         if (surpriseSection.style.display === "block") {
             currentSurpriseIndex = 0;
-            nextSurpriseBtn.style.display = "block";
+            if (nextSurpriseBtn) nextSurpriseBtn.style.display = "block";
             showNextSurprise();
         }
     });
@@ -234,9 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
         nextSurpriseBtn.addEventListener("click", showNextSurprise);
     }
 
-    // =============================
-    // FORMULÁRIO
-    // =============================
     window.openForm = function () {
         window.location.href = "formulario.html";
     };
