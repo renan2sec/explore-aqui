@@ -9,6 +9,11 @@
 </head>
 <body>
 
+<div id="introOverlay" class="intro-overlay">
+  <div class="intro-text-container">
+    <p id="introText"></p>
+  </div>
+</div>
 <header class="hero-section">
   <h1>Bem-Vinda Gatinha ✨</h1>
   <p>Escolha o que quer explorar</p>
@@ -21,12 +26,11 @@
   <div class="menu-card" onclick="openSection('surpresa')">💡 Curiosidades</div>
 
   <section class="form-invite">
-    <p class="invite-text">Agora me conta… o que achou de tudo isso?</p>
-    <button class="colorful-button" onclick="openForm()">Quero contar</button>
+    <p class="invite-text">Agora me conta… o que achou de tudo isso? 💌</p>
+    <button class="colorful-button" onclick="openForm()">Quero contar 💗</button>
   </section>
 </main>
 
-<!-- SEÇÃO GALERIA -->
 <section id="momentos" class="hidden-section">
   <button class="back-button" onclick="goBack()">← Voltar</button>
 
@@ -56,18 +60,25 @@
   </div>
 </section>
 
-<!-- SEÇÃO SEGREDOS -->
 <section id="segredos" class="hidden-section">
   <button class="back-button" onclick="goBack()">← Voltar</button>
 
   <h2>Uma música que lembra você 💭</h2>
-
-  <audio id="romanticMusic" loop>
-    <source src="audio/QuebraCabeca.mp3" type="audio/mpeg">
+  
+  <p id="musicTitleDisplay" style="color: #d2415c; font-weight: 600; margin-top: 10px;">
+    Toque para descobrir a música!
+  </p>
+  
+  <div id="slideshowContainer" class="slideshow-container">
+    <div class="slideshow-content">
+      <img id="musicPhoto" src="placeholder.png" alt="Foto especial" class="slideshow-image">
+      <p id="photoMessageSegredos" class="photo-message-segredos"></p>
+    </div>
+  </div>
+  <audio id="romanticMusic" preload="metadata">
     Seu navegador não suporta áudio.
   </audio>
 
-  <!-- Efeito Visual -->
   <div id="musicEffects">
     <span></span>
     <span></span>
@@ -79,9 +90,15 @@
   <div style="margin-top:16px;">
     <button id="musicToggleSegredos" class="colorful-button">🎵 Tocar música</button>
   </div>
+  
+  <button id="nextMusicBtn" class="colorful-button" style="margin-top: 10px;">
+    Próxima faixa 🎧
+  </button>
+
+  <p>Clique no botão para trocar a música</p>
+  
 </section>
 
-<!-- SEÇÃO CURIOSIDADES -->
 <section id="surpresa" class="hidden-section">
   <button class="back-button" onclick="goBack()">← Voltar</button>
 
