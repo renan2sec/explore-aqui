@@ -1,3 +1,6 @@
+/* =======================================
+   1. RESET E ESTILOS GERAIS
+   ======================================= */
 * {
   margin: 0;
   padding: 0;
@@ -12,6 +15,10 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+/* =======================================
+   2. LAYOUT PRINCIPAL E NAVEGAÇÃO
+   ======================================= */
 
 .hero-section {
   text-align: center;
@@ -34,6 +41,30 @@ body {
   margin: auto;
 }
 
+.form-invite {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+.invite-text {
+  font-size: 1.1rem;
+  color: #8b8c8c;
+  margin-bottom: 10px;
+}
+
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #8b8c8c;
+}
+
+/* =======================================
+   3. COMPONENTES REUTILIZÁVEIS (Buttons, Cards)
+   ======================================= */
+
+/* --- Menu Cards (com animação de brilho no hover) --- */
 .menu-card {
   background: #722c3c;
   padding: 20px;
@@ -41,25 +72,36 @@ body {
   border-radius: 20px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.7s ease;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
 }
 
 .menu-card:hover {
   transform: scale(1.05);
   background: #d2415c;
+  box-shadow: 0 8px 25px rgba(210, 65, 92, 0.5);
 }
 
-.hidden-section {
-  display: none;
-  padding: 20px;
-  text-align: center;
+.menu-card:hover::before {
+  transform: translate(-50%, -50%) scale(1);
 }
 
-.hidden-section h2 {
-  color: #d2415c;
-  margin-bottom: 20px;
-}
-
+/* --- Botões Coloridos --- */
 .colorful-button {
   margin: 10px 0 20px;
   background: #d2415c;
@@ -75,6 +117,45 @@ body {
 .colorful-button:hover {
   background: #8c848c;
 }
+
+/* --- Botão Voltar --- */
+.back-button {
+  background: #d2415c;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.back-button:hover {
+  background: #8b1f3a;
+  transform: scale(1.05);
+}
+
+/* --- Seções Escondidas --- */
+.hidden-section {
+  /* Mantém o display: none para o estado inicial */
+  display: none; 
+  padding: 20px;
+  text-align: center;
+  
+  /* NOVO: Aplica o estado inicial de opacidade zero */
+  opacity: 0;
+}
+
+.hidden-section h2 {
+  color: #d2415c;
+  margin-bottom: 20px;
+}
+
+
+/* =======================================
+   4. SEÇÃO GALERIA (Momentos) - FLIP CARD
+   ======================================= */
 
 .flip-card-container {
   margin: 20px auto;
@@ -95,7 +176,7 @@ body {
   transform: rotateY(180deg);
 }
 
-.flip-card-front, 
+.flip-card-front,
 .flip-card-back {
   width: 100%;
   height: 100%;
@@ -121,264 +202,9 @@ body {
   transform: rotateY(180deg);
   color: #fff;
   padding: 20px;
-}
-
-.tap-instruction {
-  position: absolute;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #fff;
-  background: rgba(0,0,0,0.5);
-  padding: 6px;
-}
-
-.back-button {
-  background: #d2415c;   /* cor vibrante de destaque */
-  color: #fff;           /* texto branco */
-  border: none;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-size: 1rem;
-  margin-bottom: 15px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.back-button:hover {
-  background: #8b1f3a;  /* tom mais escuro ao passar o mouse */
-  transform: scale(1.05);
-}
-
-
-/* ===== SURPRESA SECTION ===== */
-
-.surprise-overlay {
-  min-height: 60vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: softZoom 0.8s ease;
-}
-
-.surprise-card {
-  background: #722c3c;
-  border-radius: 20px;
-  padding: 30px 25px;
-  max-width: 300px;
-  text-align: center;
-  box-shadow: 0 0 40px rgba(210, 65, 92, 0.4);
-  animation: fadeInGlow 1s ease;
-}
-
-.surprise-card p {
-  color: #fff;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  min-height: 80px;
-}
-
-@keyframes fadeInGlow {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-    box-shadow: 0 0 0 rgba(210, 65, 92, 0.0);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 40px rgba(210, 65, 92, 0.4);
-  }
-}
-
-@keyframes softZoom {
-  from {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.form-invite {
-  text-align: center;
-  padding: 40px 20px 20px;
-}
-
-.invite-text {
-  font-size: 1.1rem;
-  color: #8b8c8c;
-  margin-bottom: 10px;
-}
-
-.form-section {
-  display: none;
-  padding: 20px;
-  max-width: 500px;
-  margin: auto;
-}
-
-.google-form {
-  width: 100%;
-  height: 520px;
-  border-radius: 20px;
-  background: #fff;
-}
-
-.thanks-section {
-  display: none;
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 1.1rem;
-  color: #d2415c;
-  animation: fadeIn 1s ease;
-}
-
-/* =======================
-   ESTILO EXCLUSIVO FORMULÁRIO
-   ======================= */
-
-.form-page {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 30px 20px;
-  background: radial-gradient(circle at top, rgba(210, 65, 92, 0.3), transparent 60%);
-  animation: fadeInForm 1s ease-in-out;
-}
-
-.form-page h2 {
-  color: #d2415c;
-  font-size: 1.4rem;
-  text-align: center;
-  margin-bottom: 20px;
-  line-height: 1.4;
-  animation: glowTitle 2s infinite alternate;
-}
-
-.google-form {
-  width: 100%;
-  max-width: 480px;
-  min-height: 520px;
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 0 0 30px rgba(210, 65, 92, 0.35);
-  animation: floatForm 3s ease-in-out infinite;
-}
-
-.form-page .colorful-button {
-  margin-top: 20px;
-  padding: 14px 28px;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-}
-
-/* ANIMAÇÕES */
-
-@keyframes fadeInForm {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes glowTitle {
-  from {
-    text-shadow: 0 0 10px rgba(210, 65, 92, 0.4);
-  }
-  to {
-    text-shadow: 0 0 20px rgba(210, 65, 92, 0.8);
-  }
-}
-
-@keyframes floatForm {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
-}
-
-/* RESPONSIVO PARA FORMULÁRIO */
-@media (max-width: 500px) {
-  .form-page h2 {
-    font-size: 1.2rem;
-  }
-
-  .google-form {
-    min-height: 480px;
-  }
-}
-
-/* =======================
-   ESTILO EXCLUSIVO - OBRIGADO
-   ======================= */
-
-.thanks-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 30px 20px;
-  background: radial-gradient(circle at top, rgba(210, 65, 92, 0.3), transparent 60%);
-  animation: fadeInThanks 1s ease-in-out;
-}
-
-.thanks-page h1 {
-  color: #d2415c;
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  animation: glowThanks 2s infinite alternate;
-}
-
-.thanks-page p {
-  color: #8b8c8c;
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-}
-
-.thanks-page a.colorful-button {
-  padding: 14px 28px;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-}
-
-/* ANIMAÇÕES */
-
-@keyframes fadeInThanks {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes glowThanks {
-  from {
-    text-shadow: 0 0 10px rgba(210, 65, 92, 0.4);
-  }
-  to {
-    text-shadow: 0 0 20px rgba(210, 65, 92, 0.8);
-  }
-}
-
-/* RESPONSIVO */
-@media (max-width: 500px) {
-  .thanks-page h1 {
-    font-size: 1.5rem;
-  }
 }
 
 .tap-instruction {
@@ -394,31 +220,50 @@ body {
   animation: pulse 1.2s infinite;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
-}
+/* =======================================
+   5. SEÇÃO SEGREDOS (Áudio & SLIDESHOW BLUR ZOOM)
+   ======================================= */
 
-#surpriseCardsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.surprise-card {
-  background: #722c3c;
+.slideshow-container {
+  margin: 20px auto;
+  max-width: 320px;
+  position: relative;
+  overflow: hidden;
   border-radius: 20px;
-  padding: 30px 25px;
-  max-width: 300px;
-  text-align: center;
-  margin-bottom: 20px; /* espaço para o botão */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  height: 350px;
 }
 
-#nextSurpriseBtn {
-  margin-top: auto; /* força ficar na parte de baixo */
+.slideshow-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
+.slideshow-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  
+  /* Transição de 1 segundo para opacidade, zoom e desfoque */
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out, filter 1s ease-in-out;
+  
+  /* ESTADO INICIAL: Desfocado, Reduzido (Zoom-in) e Invisível */
+  opacity: 0; 
+  transform: scale(1.05);
+  filter: blur(5px);
+}
+
+/* ESTADO ATIVO: Nítido, Ligeiramente Afastado (Zoom-out Suave) e Visível */
+.slideshow-image.active {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+}
 
 #musicEffects {
   display: flex;
@@ -444,23 +289,183 @@ body {
 #musicEffects span:nth-child(4) { animation-delay: 0.6s; }
 #musicEffects span:nth-child(5) { animation-delay: 0.8s; }
 
+
+/* =======================================
+   6. SEÇÃO CURIOSIDADES (Surpresa)
+   ======================================= */
+
+#surpriseCardsContainer {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: softZoom 0.8s ease;
+}
+
+.surprise-card {
+  background: #722c3c;
+  border-radius: 20px;
+  padding: 30px 25px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(210, 65, 92, 0.4);
+  animation: fadeInGlow 1s ease;
+  margin-bottom: 20px;
+}
+
+.surprise-card p {
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  min-height: 80px;
+}
+
+
+/* =======================================
+   7. ANIMAÇÕES
+   ======================================= */
+
+/* --- ANIMAÇÃO DE INTRODUÇÃO (OVERLAY) --- */
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #211719;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
+}
+
+.intro-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-text-container {
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #d2415c;
+  position: relative;
+  max-width: 80%;
+  line-height: 1.3;
+}
+
+.intro-text-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  animation: introGlow 2.5s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+.intro-text-container #introText.finished-typing::after {
+    display: none;
+}
+
+.intro-text-container #introText::after {
+  content: '|';
+  display: inline-block;
+  animation: blinkCursor 0.7s infinite;
+  margin-left: 2px;
+  color: #d2415c;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes introGlow {
+  0% { opacity: 0; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.1); }
+}
+
+/* --- ANIMAÇÃO DE ENTRADA DAS SEÇÕES (SLIDE UP SUAVE) --- */
+.section-enter {
+  /* Transição de 1s com curva customizada para suavidade máxima */
+  animation: fadeInSlideUpSubtle 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes fadeInSlideUpSubtle {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- ANIMAÇÕES EXISTENTES --- */
+@keyframes fadeInGlow {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+    box-shadow: 0 0 0 rgba(210, 65, 92, 0.0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 40px rgba(210, 65, 92, 0.4);
+  }
+}
+
+@keyframes softZoom {
+  from {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
 @keyframes musicBeat {
   0%, 100% { height: 8px; }
   50% { height: 40px; }
 }
 
 
-footer {
-  margin-top: auto;
-  text-align: center;
-  padding: 20px;
-  font-size: 0.9rem;
-  color: #8b8c8c;
-}
+/* =======================================
+   8. RESPONSIVIDADE
+   ======================================= */
 
-/* RESPONSIVO */
-@media (max-width: 500px) {
+@media (max-width: 768px) {
+  .intro-text-container {
+    font-size: 1.8rem;
+  }
+
   .flip-card {
     height: 45vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-text-container {
+    font-size: 1.4rem;
+    max-width: 90%;
   }
 }
